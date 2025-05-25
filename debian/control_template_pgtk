@@ -1,0 +1,14 @@
+Package: emacs-pgtk
+Maintainer: Øyvind Stegard <oyvind@stegard.net>
+Version: %{build.version}
+Priority: optional
+Section: editors
+Depends: %{build.shlibdeps}
+Architecture: amd64
+Provides: editor, emacs, emacsen, info-browser, mail-reader, news-reader
+Recommends: fonts-noto-color-emoji
+Conflicts: emacs-tty
+Description: GNU Emacs editor (with GTK+ Wayland GUI support)
+ GNU Emacs is the extensible self-documenting text editor.  This
+ package contains a version of Emacs with a graphical user interface
+ based on GTK+ for Wayland.
