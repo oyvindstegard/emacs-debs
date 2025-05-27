@@ -1,0 +1,5 @@
+emacs-%{build.variant} (%{build.version}) UNRELEASED; urgency=low
+
+  * Initial release.
+
+ -- Øyvind Stegard <oyvind@stegard.net>  %{build.changelogdate}

@@ -24,6 +24,13 @@
 
         sudo apt-get install build-essential devscripts libgtk-3-dev libgnutls28-dev libjansson-dev libgif-dev librsvg2-dev texinfo libncurses-dev libgccjit-11-dev libm17n-dev
 
-1. Run top level `make` to download Emacs source code distribution and copy debian/-files into it.
+1. Make and install libtree-sitter deb:
 
-2. ...
+        make tree-sitter
+        sudo dpkg -i target/libtree-sitter*.deb
+
+2. Make all Emacs packages:
+
+        make
+
+3. Distribute and install desired packages.
