@@ -15,7 +15,7 @@ DOWNLOAD_FILE ::= emacs_$(EMACS_VERSION).orig.tar.gz
 BUILDDIR ::= build
 OBJDIR ::= target
 
-all: emacs-pgtk emacs-tty
+all: emacs-pgtk emacs-tty emacs-x11
 
 $(DOWNLOAD_FILE):
 	@echo Downloading Emacs version $(EMACS_VERSION)
@@ -56,6 +56,9 @@ $(BUILDDIR)/pgtk/build.compiled: | $(BUILDDIR)/pgtk/emacs-$(EMACS_VERSION)
 $(BUILDDIR)/tty/build.compiled: | $(BUILDDIR)/tty/emacs-$(EMACS_VERSION)
 	$(call configure_and_build,$(dir $@),--with-x=no --without-gsettings)
 	touch $@
+$(BUILDDIR)/x11/build.compiled: | $(BUILDDIR)/x11/emacs-$(EMACS_VERSION)
+	$(call configure_and_build,$(dir $@),--with-x=yes --with-x-toolkit=gtk3 --with-cairo)
+	touch $@
 
 $(BUILDDIR)/pgtk/build.installed: $(BUILDDIR)/pgtk/build.compiled
 	$(call install,$(dir $@),$(dir $@)/install/usr/local)
@@ -63,10 +66,15 @@ $(BUILDDIR)/pgtk/build.installed: $(BUILDDIR)/pgtk/build.compiled
 $(BUILDDIR)/tty/build.installed: $(BUILDDIR)/tty/build.compiled
 	$(call install,$(dir $@),$(patsubst %/,%,$(dir $@))/install/usr/local)
 	touch $@
+$(BUILDDIR)/x11/build.installed: $(BUILDDIR)/x11/build.compiled
+	$(call install,$(dir $@),$(patsubst %/,%,$(dir $@))/install/usr/local)
+	touch $@
 
 $(BUILDDIR)/pgtk/build.shlibdeps: $(BUILDDIR)/pgtk/build.installed $(BUILDDIR)/pgtk/install/usr/local/bin/emacs
 	$(call make_shlibdeps,$(dir $@),install/usr/local/bin/emacs,build.shlibdeps)
 $(BUILDDIR)/tty/build.shlibdeps: $(BUILDDIR)/tty/build.installed $(BUILDDIR)/tty/install/usr/local/bin/emacs
+	$(call make_shlibdeps,$(dir $@),install/usr/local/bin/emacs,build.shlibdeps)
+$(BUILDDIR)/x11/build.shlibdeps: $(BUILDDIR)/x11/build.installed $(BUILDDIR)/x11/install/usr/local/bin/emacs
 	$(call make_shlibdeps,$(dir $@),install/usr/local/bin/emacs,build.shlibdeps)
 
 
@@ -79,6 +87,9 @@ $(BUILDDIR)/pgtk/install/DEBIAN/control: debian/control_template_pgtk $(BUILDDIR
 $(BUILDDIR)/tty/install/DEBIAN/control: debian/control_template_tty $(BUILDDIR)/tty/build.shlibdeps
 	mkdir -p $(dir $@)
 	sed -e "s#%{build.shlibdeps}#`cat $(BUILDDIR)/tty/build.shlibdeps`#" -e "s#%{build.version}#$(DEB_VER)#" $< > $@
+$(BUILDDIR)/x11/install/DEBIAN/control: debian/control_template_x11 $(BUILDDIR)/x11/build.shlibdeps
+	mkdir -p $(dir $@)
+	sed -e "s#%{build.shlibdeps}#`cat $(BUILDDIR)/x11/build.shlibdeps`#" -e "s#%{build.version}#$(DEB_VER)#" $< > $@
 
 $(OBJDIR)/emacs-pgtk_$(DEB_VER)$(DISTRO)_$(DEB_ARCH).deb: $(BUILDDIR)/pgtk/build.shlibdeps $(BUILDDIR)/pgtk/install/DEBIAN/control $(BUILDDIR)/pgtk/install/DEBIAN/changelog | $(OBJDIR)
 	fakeroot dpkg-deb -b $(BUILDDIR)/pgtk/install $@
@@ -86,10 +97,14 @@ $(OBJDIR)/emacs-pgtk_$(DEB_VER)$(DISTRO)_$(DEB_ARCH).deb: $(BUILDDIR)/pgtk/build
 $(OBJDIR)/emacs-tty_$(DEB_VER)$(DISTRO)_$(DEB_ARCH).deb: $(BUILDDIR)/tty/build.shlibdeps $(BUILDDIR)/tty/install/DEBIAN/control $(BUILDDIR)/tty/install/DEBIAN/changelog | $(OBJDIR)
 	fakeroot dpkg-deb -b $(BUILDDIR)/tty/install $@
 
+$(OBJDIR)/emacs-x11_$(DEB_VER)$(DISTRO)_$(DEB_ARCH).deb: $(BUILDDIR)/x11/build.shlibdeps $(BUILDDIR)/x11/install/DEBIAN/control $(BUILDDIR)/x11/install/DEBIAN/changelog | $(OBJDIR)
+	fakeroot dpkg-deb -b $(BUILDDIR)/x11/install $@
+
 emacs-pgtk: $(OBJDIR)/emacs-pgtk_$(DEB_VER)$(DISTRO)_$(DEB_ARCH).deb
 
 emacs-tty: $(OBJDIR)/emacs-tty_$(DEB_VER)$(DISTRO)_$(DEB_ARCH).deb
 
+emacs-x11: $(OBJDIR)/emacs-x11_$(DEB_VER)$(DISTRO)_$(DEB_ARCH).deb
 
 # Tree sitter
 tree-sitter-$(TREE_SITTER_VERSION).tar.gz:
@@ -116,6 +131,6 @@ clean:
 	rm -rf build/ target/
 
 distclean: clean
-	rm -f emacs_*.orig.tar.*
+	rm -f emacs_*.orig.tar.* tree-sitter*.tar.gz
 
-.PHONY: all clean distclean tree-sitter emacs-pgtk emacs-tty
+.PHONY: all clean distclean tree-sitter emacs-pgtk emacs-tty emacs-x11
