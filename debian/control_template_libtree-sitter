@@ -1,4 +1,4 @@
-Package: libtree-sitter
+Package: libtree-sitter%{build.soname_major}.%{build.soname_minor}
 Maintainer: Øyvind Stegard <oyvind@stegard.net>
 Version: %{build.version}
 Priority: optional

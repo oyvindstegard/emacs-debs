@@ -3,7 +3,7 @@ Maintainer: Øyvind Stegard <oyvind@stegard.net>
 Version: %{build.version}
 Priority: optional
 Section: editors
-Depends: %{build.shlibdeps}, libtree-sitter (>= 0.25)
+Depends: %{build.shlibdeps}
 Architecture: amd64
 Provides: editor, emacs, emacsen, info-browser, mail-reader, news-reader
 Recommends: fonts-noto-color-emoji
