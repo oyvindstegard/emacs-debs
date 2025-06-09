@@ -1,5 +1,6 @@
 Package: emacs-x11
 Maintainer: Øyvind Stegard <oyvind@stegard.net>
+Homepage: https://github.com/oyvindstegard/emacs-debs
 Version: %{build.version}
 Priority: optional
 Section: editors
