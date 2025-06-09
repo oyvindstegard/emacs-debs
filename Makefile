@@ -1,5 +1,5 @@
 # Download, build and make deb packages of Emacs (and libtree-sitter) on
-# Debian-ish. All packages install files to /usr/local to avoid file conflicts
+# Debian-ish. All packages install files to /usr/local/ to avoid file conflicts
 # with other official packages.
 
 # Emacs upstream release:
@@ -11,8 +11,8 @@ DEB_VER ::= $(EMACS_VERSION)-1
 DEB_ARCH ::= $(shell dpkg --print-architecture)
 DISTRO ::= $(shell lsb_release -sir|tr A-Z a-z|tr -d \\n)
 
-DOWNLOAD_URL ::= https://www.nic.funet.fi/pub/gnu/ftp.gnu.org/pub/gnu/emacs/emacs-$(EMACS_VERSION).tar.gz
-DOWNLOAD_FILE ::= emacs_$(EMACS_VERSION).orig.tar.gz
+DOWNLOAD_URL ::= https://ftpmirror.gnu.org/emacs/emacs-$(EMACS_VERSION).tar.xz
+DOWNLOAD_FILE ::= emacs_$(EMACS_VERSION).orig.tar.xz
 
 BUILDDIR ::= build
 OBJDIR ::= target
@@ -90,10 +90,16 @@ $(OBJDIR)/emacs-x11_$(DEB_VER)$(DISTRO)_$(DEB_ARCH).deb: $(BUILDDIR)/x11/build.i
 
 # Emacs variants main targets
 emacs-pgtk: $(OBJDIR)/emacs-pgtk_$(DEB_VER)$(DISTRO)_$(DEB_ARCH).deb
+	@echo
+	@echo Debian package: $<
 
 emacs-tty: $(OBJDIR)/emacs-tty_$(DEB_VER)$(DISTRO)_$(DEB_ARCH).deb
+	@echo
+	@echo Debian package: $<
 
 emacs-x11: $(OBJDIR)/emacs-x11_$(DEB_VER)$(DISTRO)_$(DEB_ARCH).deb
+	@echo
+	@echo Debian package: $<
 
 
 # Tree sitter package
@@ -117,7 +123,8 @@ $(OBJDIR)/$(TS_DEB_FILENAME): $(BUILDDIR)/tree-sitter/build.installed | $(OBJDIR
 	printf 'activate-noawait ldconfig\n' > $(BUILDDIR)/tree-sitter/install/DEBIAN/triggers
 	printf "libtree-sitter %d.%d libtree-sitter%d.%d (>= %d.%d)\n" $(TS_SONAME_MAJOR) $(TS_SONAME_MINOR) \
                                                                    $(TS_SONAME_MAJOR) $(TS_SONAME_MINOR) \
-                                                                   $(TS_SONAME_MAJOR) $(TS_SONAME_MINOR) > $(BUILDDIR)/tree-sitter/install/DEBIAN/shlibs
+                                                                   $(TS_SONAME_MAJOR) $(TS_SONAME_MINOR) \
+           > $(BUILDDIR)/tree-sitter/install/DEBIAN/shlibs
 	sed -e "s#%{build.shlibdeps}#`cat $(BUILDDIR)/tree-sitter/build.shlibdeps)`#" \
         -e "s#%{build.soname_major}#$(TS_SONAME_MAJOR)#" \
         -e "s#%{build.soname_minor}#$(TS_SONAME_MINOR)#" \
@@ -127,6 +134,8 @@ $(OBJDIR)/$(TS_DEB_FILENAME): $(BUILDDIR)/tree-sitter/build.installed | $(OBJDIR
 	fakeroot dpkg-deb -b $(BUILDDIR)/tree-sitter/install $@
 
 tree-sitter: $(OBJDIR)/$(TS_DEB_FILENAME)
+	@echo
+	@echo Debian package: $<
 # End tree sitter
 
 clean:
