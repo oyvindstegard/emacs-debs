@@ -12,4 +12,4 @@ Conflicts: emacs-tty, emacs-pgtk
 Description: GNU Emacs editor (with GTK+ X11 GUI support)
  GNU Emacs is the extensible self-documenting text editor.  This
  package contains a version of Emacs with a graphical user interface
- based on GTK+ for Wayland.
+ based on GTK+/X11.

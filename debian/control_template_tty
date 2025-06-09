@@ -10,6 +10,4 @@ Provides: editor, emacs, emacsen, info-browser, mail-reader, news-reader
 Recommends: fonts-noto-color-emoji
 Conflicts: emacs-pgtk, emacs-x11
 Description: GNU Emacs editor built with terminal only user interface.
- GNU Emacs is the extensible self-documenting text editor.  This
- package contains a version of Emacs with a graphical user interface
- based on GTK+ for Wayland.
+ GNU Emacs is the extensible self-documenting text editor.
