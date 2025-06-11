@@ -3,9 +3,9 @@
 This project is a single `Makefile` that downloads official Emacs source code
 releases and makes Debian packages.
 
-Current Emacs version: 30.1
+Current Emacs version: **30.1**
 
-Current default Ubuntu version: 22.04 (24.04 works as well)
+Current default Ubuntu version: **22.04** (**24.04** works as well)
 
 Build variants supported:
 - PGTK/Wayland build   (package emacs-pgtk)
