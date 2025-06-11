@@ -4,8 +4,8 @@ FROM ubuntu:$ubuntu
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get -y --no-install-recommends \
-    install wget build-essential devscripts libgtk-3-dev libgnutls28-dev \
+    apt-get -y install \
+    wget lsb-release build-essential devscripts libgtk-3-dev libgnutls28-dev \
     libgif-dev librsvg2-dev texinfo libncurses-dev libgccjit-11-dev libm17n-dev \
     libxpm-dev \
     && rm -rf /var/lib/apt/lists/*
