@@ -1,3 +1,4 @@
+#!/usr/bin/make -f
 # Download, build and make deb packages of Emacs (and libtree-sitter) on
 # Debian-ish. All packages install files to /usr/local/ to avoid file conflicts
 # with other official packages.
@@ -7,7 +8,7 @@ EMACS_VERSION ::= 30.1
 # Tree sitter upstream release:
 TS_VERSION ::= 0.25.4
 
-DEB_VER ::= $(EMACS_VERSION)-1
+DEB_VER ::= $(EMACS_VERSION)-2
 DEB_ARCH ::= $(shell dpkg --print-architecture)
 DISTRO ::= $(shell lsb_release -sir|tr A-Z a-z|tr -d \\n)
 
@@ -138,10 +139,13 @@ tree-sitter: $(OBJDIR)/$(TS_DEB_FILENAME)
 	@echo Debian package: $<
 # End tree sitter
 
+download: $(DOWNLOAD_FILE) tree-sitter-$(TS_VERSION).tar.gz
+	@for file in $^; do echo $$file; done
+
 clean:
 	rm -rf build/ target/
 
 distclean: clean
 	rm -f emacs_*.orig.tar.* tree-sitter*.tar.gz
 
-.PHONY: all clean distclean tree-sitter emacs-pgtk emacs-tty emacs-x11
+.PHONY: all clean distclean download tree-sitter emacs-pgtk emacs-tty emacs-x11

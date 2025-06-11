@@ -26,7 +26,6 @@ of conflicts with official packages from elsewhere.
 - devscripts
 - libgtk-3-dev
 - libgnutls28-dev
-- libjansson-dev
 - libgif-dev
 - librsvg2-dev
 - texinfo
@@ -48,7 +47,7 @@ of a container.
 
 1. Install all regular build-dependencies:
 
-        sudo apt install build-essential devscripts libgtk-3-dev libgnutls28-dev libjansson-dev \
+        sudo apt install build-essential devscripts libgtk-3-dev libgnutls28-dev \
                          libgif-dev librsvg2-dev texinfo libncurses-dev libgccjit-11-dev libm17n-dev \
                          libxpm-dev
 

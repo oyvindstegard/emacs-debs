@@ -4,9 +4,10 @@ FROM ubuntu:$ubuntu
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get -y install build-essential devscripts libgtk-3-dev libgnutls28-dev libjansson-dev \
+    apt-get -y --no-install-recommends \
+    install wget build-essential devscripts libgtk-3-dev libgnutls28-dev \
     libgif-dev librsvg2-dev texinfo libncurses-dev libgccjit-11-dev libm17n-dev \
-    libxpm-dev wget \
+    libxpm-dev \
     && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -d /home/builder -m builder
