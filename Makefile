@@ -4,11 +4,11 @@
 # with other official packages.
 
 # Emacs upstream release:
-EMACS_VERSION ::= 30.1
+EMACS_VERSION ::= 30.2
 # Tree sitter upstream release:
-TS_VERSION ::= 0.25.4
+TS_VERSION ::= 0.25.10
 
-DEB_VER ::= $(EMACS_VERSION)-2
+DEB_VER ::= $(EMACS_VERSION)-1
 DEB_ARCH ::= $(shell dpkg --print-architecture)
 DISTRO ::= $(shell lsb_release -sir|tr A-Z a-z|tr -d \\n)
 

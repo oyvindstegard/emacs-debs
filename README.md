@@ -3,7 +3,7 @@
 This project is a single `Makefile` that downloads official Emacs source code
 releases and makes Debian packages.
 
-Current Emacs version: **30.1**
+Current Emacs version: **30.2**
 
 Current default Ubuntu version: **22.04** (**24.04** works as well)
 
@@ -40,10 +40,9 @@ of conflicts with official packages from elsewhere.
 These instructions currently apply to a build host running Ubuntu 22.04.
 Adjustments for other Ubuntu versions or Debian-ish may be required.
 
-If you have Docker or similar, see the [Building with a
-container](#container)-instructions if you want to avoid installing all of these
-Emacs build dependencies directly on your host and instead do the builds inside
-of a container.
+If you have Docker or similar, see the [Building with a container](#container)-instructions if
+you want to avoid installing all of these Emacs build dependencies directly on
+your host and instead do the builds inside of a container.
 
 1. Install all regular build-dependencies:
 
