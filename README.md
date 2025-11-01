@@ -1,4 +1,4 @@
-# Build simple Emacs debs for Ubuntu/Debian
+# Build simple Emacs deb packages for Ubuntu/Debian
 
 This project is a single `Makefile` that downloads official Emacs source code
 releases and makes Debian packages.
